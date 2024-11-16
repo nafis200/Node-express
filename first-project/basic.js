@@ -46,6 +46,12 @@
 
 //   npm i -D eslint@9.14.0
 
+// npm run lint
+
 // npm run lint:fix
 
 // npm i -D --exact prettier
+
+// "format": "prettier . --write" add this
+
+
