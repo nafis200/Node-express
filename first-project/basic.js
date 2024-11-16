@@ -55,5 +55,6 @@
 // "format": "prettier . --write" add this
 
 // npm i --save-dev-prettier
-
+// npm install --save-dev eslint-config-prettier
+// ts-node-dev --respawn --transpile-only src/server.ts 
 
