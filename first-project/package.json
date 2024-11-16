@@ -4,6 +4,8 @@
   "description": "- [Programming hero docs](https://github.com/Apollo-Level2-Web-Dev/Level2-Batch4-PH-University-Server) uses [Babel](https://babeljs.io/) for Fast Refresh\r - [LogRocket docs](https://blog.logrocket.com/linting-typescript-eslint-prettier) uses [Babel](https://babeljs.io/) for Fast Refresh",
   "main": "basic.js",
   "scripts": {
+    "start:prod":"node ./dist/server.js",
+    "start:dev":"ts-node-dev --respawn --transpile-only src/server.ts",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier . --write",
