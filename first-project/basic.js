@@ -54,4 +54,6 @@
 
 // "format": "prettier . --write" add this
 
+// npm i --save-dev-prettier
+
 

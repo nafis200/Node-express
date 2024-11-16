@@ -10,8 +10,8 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        ecmaVersion: "latest", // ECMAScript features
-        sourceType: "module",  // ES Modules
+        ecmaVersion: "latest", 
+        sourceType: "module",  
       },
       globals: {
         ...globals.browser,
