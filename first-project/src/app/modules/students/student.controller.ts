@@ -1,4 +1,4 @@
- import { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { StudentServices } from './student.service';
 
 const createStudent = async (req: Request, res: Response) => {
@@ -11,8 +11,12 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student is created successfully',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      error: err,
+    });
   }
 };
 
@@ -32,8 +36,7 @@ const getAllStudents = async (req: Request, res: Response) => {
 
 const getSingleStudents = async (req: Request, res: Response) => {
   try {
-
-    const {studentid} = req.params
+    const { studentid } = req.params;
 
     const result = await StudentServices.getSingleStudentsFromDB(studentid);
 
@@ -42,15 +45,17 @@ const getSingleStudents = async (req: Request, res: Response) => {
       message: 'Students is retrieved successfully',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      error: err,
+    });
   }
 };
-
-
 
 export const StudentControllers = {
   createStudent,
   getAllStudents,
-  getSingleStudents
+  getSingleStudents,
 };

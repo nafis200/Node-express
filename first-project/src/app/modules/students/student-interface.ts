@@ -1,6 +1,4 @@
-import { Schema, model, connect } from 'mongoose';
-
-export type Gurdian = {
+export type Guardian = {
   fatherName: string;
   fatherOccupation: string;
   fatherContactNo: string;
@@ -11,11 +9,11 @@ export type Gurdian = {
 
 export type UserName = {
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
 };
 
-export type LocalGurdian = {
+export type LocalGuardian = {
   name: string;
   occupation: string;
   contactNo: string;
@@ -26,7 +24,7 @@ export type Student = {
   id: string;
   name: UserName;
   gender: 'male' | 'female';
-  dateofBirth?: string;
+  dateOfBirth?: string;
   email: string;
   avatar?: string;
   contactNo: string;
@@ -34,8 +32,8 @@ export type Student = {
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
-  gurdian: Gurdian;
-  localGurdian: LocalGurdian;
+  guardian: Guardian;
+  localGuardian: LocalGuardian;
   profileImg?: string;
   isActive: 'active' | 'inactive';
 };

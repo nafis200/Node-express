@@ -1,57 +1,113 @@
 import { Schema, model } from 'mongoose';
 import type { Student, UserName } from './student-interface';
 
+// UserName Schema
 const UserNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
-    required: true,
+    required: [true, "First name is required"],
+    maxlength: [20, "First name must be less than 20 characters"],
   },
   middleName: {
     type: String,
+    maxlength: [20, "Middle name must be less than 20 characters"],
   },
   lastName: {
     type: String,
-    required: true,
+    required: [true, "Last name is required"],
+    maxlength: [20, "Last name must be less than 20 characters"],
   },
 });
 
+// Guardian Schema
+const GuardianSchema = new Schema({
+  fatherName: { type: String, required: true },
+  fatherOccupation: { type: String, required: true },
+  fatherContactNo: { type: String, required: true },
+  motherName: { type: String, required: true },
+  motherOccupation: { type: String, required: true },
+  motherContactNo: { type: String, required: true },
+});
+
+// Local Guardian Schema
+const LocalGuardianSchema = new Schema({
+  name: { type: String, required: true },
+  occupation: { type: String, required: true },
+  contactNo: { type: String, required: true },
+  address: { type: String, required: true },
+});
+
+// Student Schema
 const studentSchema = new Schema<Student>({
-  id: { type: String },
-  name: { type: UserNameSchema, required: true }, 
+  id: { 
+    type: String, 
+    required: [true, "Student ID is required"], 
+    unique: true,
+  },
+  name: { 
+    type: UserNameSchema, 
+    required: [true, "Name is required"]
+  },
   gender: {
     type: String,
-    enum: ['male', 'female'], 
+    enum: {
+      values: ['male', 'female'],
+      message: "Gender must be either 'male' or 'female'",
+    },
+    required: [true, "Gender is required"],
   },
-  dateOfBirth: { type: String }, 
+  dateOfBirth: { 
+    type: String,
+    required: [true, "Date of birth is required"],
+  },
   email: {
     type: String,
-    required: true,
+    required: [true, "Email is required"],
   },
   contactNo: {
     type: String,
-    required: true,
+    required: [true, "Contact number is required"],
   },
   emergencyContactNo: {
     type: String,
-    required: true,
+    required: [true, "Emergency contact number is required"],
   },
   bloodGroup: {
     type: String,
-    enum: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-'], 
+    enum: {
+      values: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-'],
+      message: "Blood group must be one of 'A+', 'A-', 'B+', 'B-', 'O+', 'O-'",
+    },
   },
   presentAddress: {
     type: String,
-    required: true,
+    required: [true, "Present address is required"],
   },
   permanentAddress: {
     type: String,
-    required: true,
+    required: [true, "Permanent address is required"],
   },
-  profileImg: { type: String }, 
+  guardian: { 
+    type: GuardianSchema, 
+    required: [true, "Guardian details are required"] 
+  },
+  localGuardian: { 
+    type: LocalGuardianSchema, 
+    required: [true, "Local Guardian details are required"]
+  },
+  profileImg: { 
+    type: String, 
+    default: "default-profile.png" 
+  },
   isActive: {
     type: String,
-    enum: ['active', 'inactive'], 
+    enum: {
+      values: ['active', 'inactive'],
+      message: "Status must be either 'active' or 'inactive'",
+    },
+    default: 'active', // Default value
   },
 });
 
+// Export the Student Model
 export const StudentModel = model<Student>('Student', studentSchema);
