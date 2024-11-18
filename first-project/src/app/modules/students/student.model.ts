@@ -5,17 +5,30 @@ import type { Student, UserName } from './student-interface';
 const UserNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
-    required: [true, "First name is required"],
-    maxlength: [20, "First name must be less than 20 characters"],
+    required: [true, 'First name is required'],
+    trim: true,
+    maxlength: [20, 'First name must be less than 20 characters'],
+    // custom validator
+    validate: {
+      validator: function (value:string) {
+        const firstNamestr =
+          value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        if (value !== firstNamestr) {
+          return false;
+        }
+        return true;
+      },
+      message: '{VALUE} is not in capitalize format'
+    },
   },
   middleName: {
     type: String,
-    maxlength: [20, "Middle name must be less than 20 characters"],
+    maxlength: [20, 'Middle name must be less than 20 characters'],
   },
   lastName: {
     type: String,
-    required: [true, "Last name is required"],
-    maxlength: [20, "Last name must be less than 20 characters"],
+    required: [true, 'Last name is required'],
+    maxlength: [20, 'Last name must be less than 20 characters'],
   },
 });
 
@@ -39,14 +52,14 @@ const LocalGuardianSchema = new Schema({
 
 // Student Schema
 const studentSchema = new Schema<Student>({
-  id: { 
-    type: String, 
-    required: [true, "Student ID is required"], 
+  id: {
+    type: String,
+    required: [true, 'Student ID is required'],
     unique: true,
   },
-  name: { 
-    type: UserNameSchema, 
-    required: [true, "Name is required"]
+  name: {
+    type: UserNameSchema,
+    required: [true, 'Name is required'],
   },
   gender: {
     type: String,
@@ -54,23 +67,23 @@ const studentSchema = new Schema<Student>({
       values: ['male', 'female'],
       message: "Gender must be either 'male' or 'female'",
     },
-    required: [true, "Gender is required"],
+    required: [true, 'Gender is required'],
   },
-  dateOfBirth: { 
+  dateOfBirth: {
     type: String,
-    required: [true, "Date of birth is required"],
+    required: [true, 'Date of birth is required'],
   },
   email: {
     type: String,
-    required: [true, "Email is required"],
+    required: [true, 'Email is required'],
   },
   contactNo: {
     type: String,
-    required: [true, "Contact number is required"],
+    required: [true, 'Contact number is required'],
   },
   emergencyContactNo: {
     type: String,
-    required: [true, "Emergency contact number is required"],
+    required: [true, 'Emergency contact number is required'],
   },
   bloodGroup: {
     type: String,
@@ -81,23 +94,23 @@ const studentSchema = new Schema<Student>({
   },
   presentAddress: {
     type: String,
-    required: [true, "Present address is required"],
+    required: [true, 'Present address is required'],
   },
   permanentAddress: {
     type: String,
-    required: [true, "Permanent address is required"],
+    required: [true, 'Permanent address is required'],
   },
-  guardian: { 
-    type: GuardianSchema, 
-    required: [true, "Guardian details are required"] 
+  guardian: {
+    type: GuardianSchema,
+    required: [true, 'Guardian details are required'],
   },
-  localGuardian: { 
-    type: LocalGuardianSchema, 
-    required: [true, "Local Guardian details are required"]
+  localGuardian: {
+    type: LocalGuardianSchema,
+    required: [true, 'Local Guardian details are required'],
   },
-  profileImg: { 
-    type: String, 
-    default: "default-profile.png" 
+  profileImg: {
+    type: String,
+    default: 'default-profile.png',
   },
   isActive: {
     type: String,
