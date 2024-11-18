@@ -1,6 +1,8 @@
 - [Programming hero docs](https://github.com/Apollo-Level2-Web-Dev/Level2-Batch4-PH-University-Server) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [LogRocket docs](https://blog.logrocket.com/linting-typescript-eslint-prettier) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [Mongoose docs](https://mongoosejs.com/) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [Validator-Js docs](https://github.com/validatorjs/validator.js) uses [Babel] for Fast Refresh
+- [joi docs](https://www.npmjs.com/package/joi) uses [Babel] for Fast Refresh
 
 it uses future
 

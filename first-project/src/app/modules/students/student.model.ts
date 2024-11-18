@@ -1,6 +1,9 @@
 import { Schema, model } from 'mongoose';
 import type { Student, UserName } from './student-interface';
 
+// import libary
+import validator from 'validator';
+
 // UserName Schema
 const UserNameSchema = new Schema<UserName>({
   firstName: {
@@ -10,7 +13,7 @@ const UserNameSchema = new Schema<UserName>({
     maxlength: [20, 'First name must be less than 20 characters'],
     // custom validator
     validate: {
-      validator: function (value:string) {
+      validator: function (value: string) {
         const firstNamestr =
           value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
         if (value !== firstNamestr) {
@@ -18,7 +21,7 @@ const UserNameSchema = new Schema<UserName>({
         }
         return true;
       },
-      message: '{VALUE} is not in capitalize format'
+      message: '{VALUE} is not in capitalize format',
     },
   },
   middleName: {
@@ -29,6 +32,12 @@ const UserNameSchema = new Schema<UserName>({
     type: String,
     required: [true, 'Last name is required'],
     maxlength: [20, 'Last name must be less than 20 characters'],
+    // build in third party
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+
+      message: '{VALUE} is not valid',
+    },
   },
 });
 
