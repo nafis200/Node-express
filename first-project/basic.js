@@ -58,3 +58,6 @@
 // npm install --save-dev eslint-config-prettier
 // ts-node-dev --respawn --transpile-only src/server.ts 
 
+// npm run start:dev
+
+// this file will given
