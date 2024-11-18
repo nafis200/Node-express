@@ -1,17 +1,23 @@
 import { Schema, model } from 'mongoose';
-import type { Student, UserName } from './student-interface';
+import type {
+  TStudent,
+  StudentMethods,
+  StudentModel,
+  TUserName,
+} from './student-interface';
 
-// import libary
+// Import library
 import validator from 'validator';
-
-// UserName Schema
-const UserNameSchema = new Schema<UserName>({
+import bcrypt from 'bcrypt';
+import config from '../../config';
+// TUserName Schema
+const TUserNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
     trim: true,
     maxlength: [20, 'First name must be less than 20 characters'],
-    // custom validator
+    // Custom validator
     validate: {
       validator: function (value: string) {
         const firstNamestr =
@@ -32,10 +38,9 @@ const UserNameSchema = new Schema<UserName>({
     type: String,
     required: [true, 'Last name is required'],
     maxlength: [20, 'Last name must be less than 20 characters'],
-    // build in third party
+    // Built-in third party
     validate: {
       validator: (value: string) => validator.isAlpha(value),
-
       message: '{VALUE} is not valid',
     },
   },
@@ -60,14 +65,20 @@ const LocalGuardianSchema = new Schema({
 });
 
 // Student Schema
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent, StudentModel>({
   id: {
     type: String,
     required: [true, 'Student ID is required'],
     unique: true,
   },
+  password: {
+    type: String,
+    required: [true, 'password ID is required'],
+    unique: true,
+    maxlength: [20, 'password should be under 20 charcter'],
+  },
   name: {
-    type: UserNameSchema,
+    type: TUserNameSchema,
     required: [true, 'Name is required'],
   },
   gender: {
@@ -129,7 +140,92 @@ const studentSchema = new Schema<Student>({
     },
     default: 'active', // Default value
   },
+  isDeleted: {
+    type: Boolean,
+    default:false
+  }
+},{
+  toJSON:{
+    virtuals: true,
+  }
 });
 
 // Export the Student Model
-export const StudentModel = model<Student>('Student', studentSchema);
+
+// creating a custom instance method
+
+// studentSchema.methods.isUserExists = async function (id: string) {
+//   const existingUser = await Student.findOne({ id: id });
+//   return existingUser;
+// };
+
+// virtual
+
+studentSchema.virtual('fullname').get(function(){
+  return `${this.name.firstName} ${this.name.middleName || ''} ${this.name.lastName}`.trim();
+
+})
+
+// pre save middleware/hook: will work create() save()
+
+studentSchema.pre('save',async function (next) {
+  //  console.log(this, 'pre hook: we will save to data');
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  // hasing password and save into db
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.brcypt_salt_rounds),
+  );
+  next()
+});
+
+// post save middleware / hook
+
+studentSchema.post('save', function (doc,next) {
+
+  doc.password=' '
+
+  // console.log(this, 'post hook: we saveed our data');
+  next()
+});
+
+
+// query middleware
+
+
+studentSchema.pre('find', function(next){
+   
+    this.find({isDeleted: {$ne: true}})
+    // console.log(this);
+    next()
+})
+
+studentSchema.pre('findOne', function(next){
+   
+  this.find({isDeleted: {$ne: true}})
+  // console.log(this);
+  next()
+})
+
+studentSchema.pre('aggregate', function(next){
+   
+  this.find({isDeleted: {$ne: true}})
+  // console.log(this);
+  // console.log(this.pipeline());
+  this.pipeline().unshift({$match: {isDeleted: {$ne: true}}})
+  next()
+})
+
+
+
+
+// creating a custom static methods
+
+studentSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await Student.findOne({ id });
+
+  return existingUser;
+};
+
+export const Student = model<TStudent, StudentModel>('Student', studentSchema);

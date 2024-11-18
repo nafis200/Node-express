@@ -10,6 +10,8 @@ router.get('/', StudentControllers.getAllStudents);
 
 router.get('/:studentid', StudentControllers.getSingleStudents);
 
+router.delete('/:studentid', StudentControllers.getdeleteStudents);
+
 export const StudentRoutes = router;
 
 // route ---> controller ----> services --> database

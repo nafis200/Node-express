@@ -3,6 +3,8 @@
 - [Mongoose docs](https://mongoosejs.com/) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [Validator-Js docs](https://github.com/validatorjs/validator.js) uses [Babel] for Fast Refresh
 - [joi docs](https://www.npmjs.com/package/joi) uses [Babel] for Fast Refresh
+- [zod docs](https://zod.dev/) uses [Babel] for Fast Refresh
+- [bcrypt docs](https://www.npmjs.com/package/bcrypt) uses [Babel] for Fast Refresh
 
 it uses future
 
