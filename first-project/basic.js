@@ -105,8 +105,83 @@
 
 // this file will given
 
+//  Software Design Pattern
 
-//  new module
+//  MVC ----->    modules, view, controller  rearly use
+
+// modular pattern is used 
+// Scalibility
+// maintainibility
+// Better Refectoring
+
+// two modle follow
+//  Dry--->  Dont repeat yourself
+//  Fat Model / Thin Controller
+
+// moduler pattern is used follow is rule
+//  1. Schema
+//  2. Model
+//  3. DB Query
+
+// modles some file include
+
+// interface
+// Schema
+// model
+// database query according to model
+// route
+// controller
+// services
+//  Go to mongoose documentation and typescript part
+//  and follow first four rules
+
+// 1.first create an interface which is created by interface folder in file
+
+// 2. Create a Schema corresponding to the document interface. which model.ts
+
+// 3. Create an Model below is model
+// export const User = model<Student>('User',studentSchema)
+
+// after interface, schemam, model
+
+// Process of the student
+
+// 1. Request hit the route.ts
+// 2. route call controller.ts
+// 3. controller call service.ts
+// 4. Service handle bussiness logic it query database from model and give controller
+// Controller give response Client 
+
+//  road map
+    //  req
+// Client ----> route.ts -----> controller.ts <---> service.ts 
+              // req, res 
+// service.ts --------------- database--> controller--->Client
+
+// make a route.ts
+
+// import express from 'express'
+
+// const router = express.Router()
+
+//  we call get put,patch delete make on router
+
+// router.post('/create-student') its call controller.ts
+// it is hit controller
+// controller hit services.ts
+// services.ts give response
+
+
+//  show example app file 
+
+//  last process
+
+//  npm run lint
+//  npm run prettier
+// git add commit push
+
+
+
 
 // joi package
 
