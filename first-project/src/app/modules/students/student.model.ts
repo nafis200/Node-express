@@ -210,7 +210,7 @@ studentSchema.pre('findOne', function(next){
 
 studentSchema.pre('aggregate', function(next){
    
-  this.find({isDeleted: {$ne: true}})
+  // this.find({isDeleted: {$ne: true}})
   // console.log(this);
   // console.log(this.pipeline());
   this.pipeline().unshift({$match: {isDeleted: {$ne: true}}})

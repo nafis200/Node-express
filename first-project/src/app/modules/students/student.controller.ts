@@ -12,11 +12,10 @@ const createStudent = async (req: Request, res: Response) => {
     // for Joi
     // creating a schema validation using joy
     //  const {error,value} = studentValitaionSchema.validate
-    //  (studentData)
+    //  (value)
 
     //  console.log({error},{value});
 
-    // const result = await StudentServices.createStudentIntoDB(value);
 
     //  if(error){
     //   res.status(500).json({
@@ -25,6 +24,8 @@ const createStudent = async (req: Request, res: Response) => {
     //     error: error.details,
     //   });
     //  }
+
+       // const result = await StudentServices.createStudentIntoDB(value);
 
     // end Joi
 

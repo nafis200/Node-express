@@ -181,6 +181,116 @@
 // git add commit push
 
 
+// module --------------------9----------------------------------------
+
+//  npm i validator
+// npm i @types/validator
+
+// or use
+// npm i joi
+
+//  student.validation.ts joi er validate gulo bosiye daw
+
+// controller request theke je data ta pabo take validation korar jonno joi or zod use korbo
+// database e entry er age check korbo joi diye
+
+// zod diye validation
+
+// npm install zod 
+
+// Monggose Custom instance Methods
+
+//  schema ----> statics -----> model -----> call on model
+
+//  mongoose Instance methods
+
+//  schema ---> methods-----> model -----> Instance ---> call on instance
+
+// instance schema method read docs
+
+//  instance ----> model--->
+
+//  first create interface into interface.ts
+// second create method into interface.ts
+
+// Put all user instance methods in this interface:
+
+// interface IUserMethods {
+//     fullName(): string;
+//   }
+  
+//   // Create a new Model type that knows about IUserMethods...
+//   type UserModel = Model<IUser, {}, IUserMethods>;
+
+//  main implementation is done into model
+
+// Sent model into studentSchema model.ts
+
+// studentSchema add StudentModel and StudentMethod
+
+// studentSchema.methods.isUserExists = async function(id: string){
+  
+//   const existingUser = await Student.findOne({id})
+ 
+// id accept null or string so change Studentmethod | null
+
+//   return existingUser
+
+// }
+
+// export const Student = model<TStudent,StudentModel>('Student', studentSchema);
+
+
+// services.ts e query korbo
+
+// model Student ke service.ts e niye asbo
+// services.ts
+//  const createStudentIntoDB = async (studentData: TStudent) => {
+    //  const result = await Student.create(studentData)
+//     const student = new Student(studentData)
+    
+//     if(await student.isUserExists(studentData.id)){
+//         throw new Error('User already exists')
+//     }
+
+//     const result = await student.save()
+//      return result;
+// };
+
+// new mongoose hoooooooooooooooooooooooooooooks
+
+//  model.ts er schema kaj korte hoy
+
+//  model giye first (save middleware pre post banate hobe)
+
+// use studentSchema.pre post
+
+// real life example 
+// bcrypt the password
+// install install bcrypt and npm i -D @types/bcrypt 
+
+// Add config BCRYPT_GROUND_SALT
+
+// config, env te change ante hobe
+
+//  work pre schema
+
+// if preschema work properly than give two function doc and next
+
+//  doc updated documents
+
+//  aggregate ke call korle current pipeline
+
+
+// virtual apply into model schema
+
+// we dont need store into database we use it
+
+// studentSchema.virtual('fullname').get(function(){
+//     return `${this.name.firstName} ${this.name.middleName || ''} ${this.name.lastName}`.trim();
+  
+//   })
+  
 
 
 // joi package

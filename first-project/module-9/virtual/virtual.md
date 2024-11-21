@@ -1,9 +1,13 @@
-import { Schema, model } from 'mongoose';
-import type { Student, UserName } from './student.interface';
-import { LocalGuardian } from './student.interface';
-import validator from 'validator';
 
-const UserNameSchema = new Schema<UserName>({
+
+import { Schema, model } from 'mongoose';
+import type { TStudent, StudentMethod, StudentModel, TUserName } from './student.interface';
+import { TLocalGuardian } from './student.interface';
+import validator from 'validator';
+import bcrypt from 'bcrypt'
+import config from '../../config';
+
+const UserNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
@@ -37,14 +41,14 @@ const UserNameSchema = new Schema<UserName>({
   },
 });
 
-const LocalGuardianSchema = new Schema<LocalGuardian>({
+const LocalGuardianSchema = new Schema<TLocalGuardian>({
   name: { type: String, required: true },
   occupation: { type: String, required: true },
   contactNo: { type: String, required: true },
   address: { type: String, required: true },
 });
 
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent,StudentModel,StudentMethod>({
   id: {
     type: String,
     required: [true, 'Student ID is required'],
@@ -120,6 +124,8 @@ const studentSchema = new Schema<Student>({
     type: Boolean,
     default: false,
   },
+},{
+    toJSON:{
+      virtuals: true
+    }
 });
-
-export const StudentModel = model<Student>('Student', studentSchema);
