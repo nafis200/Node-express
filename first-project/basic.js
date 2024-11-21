@@ -296,3 +296,37 @@
 // joi package
 
 // npm i -D @types/validator  always install dependency
+
+// build in method
+
+//1. vercel CLI
+//2.Github Vercel
+
+// vercel cli...................................
+
+// 1. Using vercel.json file
+// 2. npm i -g vercel
+//  vercel -v command use to check vercel is or not
+// vercel login if dosent login
+
+//  vercel --prod
+
+// Link to existing project No
+
+// if does not install vercel then step follow but i dont use it
+
+//  npx vercel login
+
+//  npx vercel --prod
+
+//  Github
+
+//  without install
+
+// click add new button and project button
+
+//  just  open build in dont hand root
+
+//  intall command npm install
+// environment varriable
+
