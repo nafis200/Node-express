@@ -1,30 +1,29 @@
-import { TStudent } from './student-interface';
+// import { TStudent } from './student-interface';
 import { Student } from './student.model';
 
-const createStudentIntoDB = async (studentData: TStudent) => {
+// const createStudentIntoDB = async (studentData: TStudent) => {
+//   if (await Student.isUserExists(studentData.id)) {
+//     throw new Error('User already exists');
+//   }
 
-  if(await Student.isUserExists(studentData.id)){
-    throw new Error('User already exists')
-  }  
+//   const result = await Student.create(studentData);
 
-  const result = await Student.create(studentData);
+//   // built in static methods
 
-  // built in static methods
+//   // Now use instance method
 
-  // Now use instance method
+//   // const student = new Student(studentData)
+//   // // create ab instance
 
-  // const student = new Student(studentData)
-  // // create ab instance
+//   // if(await student.isUserExists(studentData.id)){
+//   //      throw new Error('User already exists')
+//   // }
 
-  // if(await student.isUserExists(studentData.id)){
-  //      throw new Error('User already exists')
-  // }
+//   // const result = await student.save()
+//   // in instance method
 
-  // const result = await student.save()
-  // in instance method
-
-  return result;
-};
+//   return result;
+// };
 
 const getAllStudentsFromDB = async () => {
   const result = await Student.find();
@@ -35,21 +34,20 @@ const getSingleStudentsFromDB = async (id: string) => {
   // const result = await Student.findOne({ id });
   const result = await Student.aggregate([
     {
-      $match: {id : id}
-    }
-  ])
+      $match: { id: id },
+    },
+  ]);
   return result;
 };
 
 const deleteStudentsFromDB = async (id: string) => {
-  const result = await Student.updateOne({ id },{isDeleted: true});
+  const result = await Student.updateOne({ id }, { isDeleted: true });
   return result;
 };
 
-
 export const StudentServices = {
-  createStudentIntoDB,
+  // createStudentIntoDB,
   getAllStudentsFromDB,
   getSingleStudentsFromDB,
-  deleteStudentsFromDB
+  deleteStudentsFromDB,
 };

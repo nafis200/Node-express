@@ -5,6 +5,7 @@
 - [joi docs](https://www.npmjs.com/package/joi) uses [Babel] for Fast Refresh
 - [zod docs](https://zod.dev/) uses [Babel] for Fast Refresh
 - [bcrypt docs](https://www.npmjs.com/package/bcrypt) uses [Babel] for Fast Refresh
+- [status docs](https://www.npmjs.com/package/http-status) uses [Babel] for Fast Refresh
 
 it uses future
 

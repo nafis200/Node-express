@@ -1,15 +1,15 @@
 import { Schema, model } from 'mongoose';
 import type {
   TStudent,
-  StudentMethods,
+  // StudentMethods,
   StudentModel,
   TUserName,
 } from './student-interface';
 
 // Import library
 import validator from 'validator';
-import bcrypt from 'bcrypt';
-import config from '../../config';
+// import bcrypt from 'bcrypt';
+// import config from '../../config';
 // TUserName Schema
 const TUserNameSchema = new Schema<TUserName>({
   firstName: {
@@ -71,12 +71,18 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     required: [true, 'Student ID is required'],
     unique: true,
   },
-  password: {
-    type: String,
-    required: [true, 'password ID is required'],
-    unique: true,
-    maxlength: [20, 'password should be under 20 charcter'],
+  user:{
+    type: Schema.Types.ObjectId,
+    required:[true, 'Student ID is required'],
+    unique:true,
+    ref:'User',
   },
+  // password: {
+  //   type: String,
+  //   required: [true, 'password ID is required'],
+  //   unique: true,
+  //   maxlength: [20, 'password should be under 20 charcter'],
+  // },
   name: {
     type: TUserNameSchema,
     required: [true, 'Name is required'],
@@ -132,14 +138,14 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     type: String,
     default: 'default-profile.png',
   },
-  isActive: {
-    type: String,
-    enum: {
-      values: ['active', 'inactive'],
-      message: "Status must be either 'active' or 'inactive'",
-    },
-    default: 'active', // Default value
-  },
+  // isActive: {
+  //   type: String,
+  //   enum: {
+  //     values: ['active', 'inactive'],
+  //     message: "Status must be either 'active' or 'inactive'",
+  //   },
+  //   default: 'active', // Default value
+  // },
   isDeleted: {
     type: Boolean,
     default:false
@@ -168,27 +174,27 @@ studentSchema.virtual('fullname').get(function(){
 
 // pre save middleware/hook: will work create() save()
 
-studentSchema.pre('save',async function (next) {
-  //  console.log(this, 'pre hook: we will save to data');
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this;
-  // hasing password and save into db
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.brcypt_salt_rounds),
-  );
-  next()
-});
+// studentSchema.pre('save',async function (next) {
+//   //  console.log(this, 'pre hook: we will save to data');
+//   // eslint-disable-next-line @typescript-eslint/no-this-alias
+//   const user = this;
+//   // hasing password and save into db
+//   user.password = await bcrypt.hash(
+//     user.password,
+//     Number(config.brcypt_salt_rounds),
+//   );
+//   next()
+// });
 
 // post save middleware / hook
 
-studentSchema.post('save', function (doc,next) {
+// studentSchema.post('save', function (doc,next) {
 
-  doc.password=' '
+//   doc.password=' '
 
-  // console.log(this, 'post hook: we saveed our data');
-  next()
-});
+//   // console.log(this, 'post hook: we saveed our data');
+//   next()
+// });
 
 
 // query middleware
