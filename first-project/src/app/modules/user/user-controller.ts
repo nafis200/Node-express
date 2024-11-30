@@ -1,28 +1,20 @@
-import { RequestHandler } from 'express';
 import { UserService } from './user-services';
 import sendResponse from '../../utils/sendresponse';
 import httpStatus from 'http-status';
+import catchAsync from '../../utils/Catchasync';
 
-// type arr
+const createStudent = catchAsync(async (req, res) => {
+  const { password, student: studentData } = req.body;
 
+  const result = await UserService.createStudentIntoDB(password, studentData);
 
-const createStudent:RequestHandler = async (req,res,next) => {
-  try {
-    const { password, student: studentData } = req.body;
-
-    const result = await UserService.createStudentIntoDB(password, studentData);
-
-    sendResponse(res,{
-      statusCode:httpStatus.OK,
-      success:true,
-      message:'Student is created successfully',
-      data:result
-
-    })
-  } catch (err) {
-     next(err)
-  }
-};
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student is created successfully',
+    data: result,
+  });
+});
 
 export const UserController = {
   createStudent,
