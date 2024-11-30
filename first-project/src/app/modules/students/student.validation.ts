@@ -56,59 +56,26 @@ const LocalGuardianValidationSchema = z.object({
 });
 
 // Student Schema
-const studentValidationSchema = z.object({
-  id: z
-    .string()
-    .min(1, { message: 'Student ID is required' })
-    .max(50, { message: 'Student ID must be less than 50 characters' })
-    .regex(/^[a-zA-Z0-9]+$/, { message: 'Student ID must be alphanumeric' }),
-
-  password: z.string().max(20),
-
-  name: UserNameValidationSchema,
-
-  gender: z.enum(['male', 'female'], {
-    message: "Gender must be either 'male' or 'female'",
+export const studentValidationSchema = z.object({
+  body: z.object({
+    password: z.string().max(20),
+    student: z.object({
+      name: UserNameValidationSchema,
+      gender: z.enum(['male', 'female', 'other']),
+      dateOfBirth: z.string().optional(),
+      email: z.string().email(),
+      contactNo: z.string(),
+      emergencyContactNo: z.string(),
+      bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+      presentAddress: z.string(),
+      permanentAddress: z.string(),
+      guardian: GuardianValidationSchema,
+      localGuardian: LocalGuardianValidationSchema,
+      profileImg: z.string(),
+    }),
   }),
-
-  dateOfBirth: z.string().min(1, { message: 'Date of birth is required' }),
-
-  email: z
-    .string()
-    .email({ message: 'Invalid email address' })
-    .min(1, { message: 'Email is required' }),
-
-  contactNo: z.string().min(1, { message: 'Contact number is required' }),
-
-  emergencyContactNo: z
-    .string()
-    .min(1, { message: 'Emergency contact number is required' }),
-
-  bloodGroup: z
-    .enum(['A+', 'A-', 'B+', 'B-', 'O+', 'O-'], {
-      message: "Blood group must be one of 'A+', 'A-', 'B+', 'B-', 'O+', 'O-'",
-    })
-    .optional(),
-
-  presentAddress: z.string().min(1, { message: 'Present address is required' }),
-
-  permanentAddress: z
-    .string()
-    .min(1, { message: 'Permanent address is required' }),
-
-  guardian: GuardianValidationSchema,
-
-  localGuardian: LocalGuardianValidationSchema,
-
-  profileImg: z.string().default('default-profile.png'),
-
-  isActive: z
-    .enum(['active', 'inactive'], {
-      message: "Status must be either 'active' or 'inactive'",
-    })
-    .default('active'),
-    isDeleted: z.boolean()
 });
-
 // Export the Zod schema
-export default studentValidationSchema;
+export const studentValidations = {
+  studentValidationSchema,
+};

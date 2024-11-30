@@ -138,14 +138,6 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     type: String,
     default: 'default-profile.png',
   },
-  // isActive: {
-  //   type: String,
-  //   enum: {
-  //     values: ['active', 'inactive'],
-  //     message: "Status must be either 'active' or 'inactive'",
-  //   },
-  //   default: 'active', // Default value
-  // },
   isDeleted: {
     type: Boolean,
     default:false
