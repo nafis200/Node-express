@@ -4,6 +4,7 @@ import { UserController } from './user-controller';
 import { createStudentValidationSchema } from '../students/student.validation';
 import ValidateRequest from '../../middleware/validateRequest';
 
+
 const router = express.Router();
 
 // will call controller function
