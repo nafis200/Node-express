@@ -17,6 +17,10 @@ export type TacademicSemisterName = 'Autumn' | 'Summar' | 'Fall'
 
  export type TacademicSemisterCode = '01' | '02' | '03'
 
+ export type TAcademicSemesterNameCodeMapper = {
+    [key:string]: string
+ }
+
 export type TAcademisSemister = {
     name: TacademicSemisterName,
     code:TacademicSemisterCode,
