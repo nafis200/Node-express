@@ -1,18 +1,32 @@
-import { TAcademisSemister } from "../academic Semister/academic_semister_interface";
+import { TAcademisSemister } from '../academic Semister/academic_semister_interface';
+import { User } from './user-model';
 
 
 
-export const generateStudentId = (payload: TAcademisSemister) =>{
-      
-    // first time 0000
-    const currentId = (0).toString()
+const findLastStudentId = async()=>{
+     const lastStudent = await User.findOne({
+         role:'student'
+     },{
+        id: 1,
+        _id: 0
+     },
+    ).lean()
 
-    let incrementId = (Number(currentId) + 1).toString().padStart(4,'0');
-
-
-    incrementId = `${payload.year}${payload.code}${incrementId}`
-
-    return incrementId
-      
-
+    return lastStudent?.id ? lastStudent.id.substring(6) : undefined
 }
+
+
+
+export const generateStudentId = async(payload: TAcademisSemister) => {
+  // first time 0000
+
+//   console.log(await findLastStudentId());
+  
+  const currentId = await findLastStudentId() ||(0).toString();
+
+  let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
+
+  incrementId = `${payload.year}${payload.code}${incrementId}`;
+
+  return incrementId;
+};
