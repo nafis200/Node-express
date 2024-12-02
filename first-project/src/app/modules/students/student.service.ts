@@ -37,11 +37,12 @@ const getAllStudentsFromDB = async () => {
 
 const getSingleStudentsFromDB = async (id: string) => {
   // const result = await Student.findOne({ id });
-  const result = await Student.aggregate([
-    {
-      $match: { id: id },
+  const result = await Student.findById(id).populate('admissionSemester').populate({
+    path:'academicDepartment',
+    populate:{
+      path:'academicFaculty',
     },
-  ]);
+  })
   return result;
 };
 
