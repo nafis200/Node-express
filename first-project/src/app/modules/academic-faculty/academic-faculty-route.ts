@@ -29,4 +29,4 @@ router.patch(
   AcademicFacultyController.updateAcademicFaculties,
 );
 
-export const AcademicSemesterRoutes = router;
+export const AcademicFacultyRoutes = router;
