@@ -45,9 +45,11 @@ const getSingleAcademicFaculties = catchAsync(async (req, res) => {
 });
 
 const updateAcademicFaculties = catchAsync(async (req, res) => {
-  const { semesterId } = req.params;
+  const { facultyId } = req.params;
+
+  
   const result = await AcademicFacultiesServices.updateAcademicFacultiesIntoDB(
-    semesterId,
+    facultyId,
     req.body,
   );
 
