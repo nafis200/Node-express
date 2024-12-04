@@ -76,7 +76,33 @@ export const createStudentValidationSchema = z.object({
     }),
   }),
 });
+
+export const updateStudentValidationSchema = z.object({
+  body: z.object({
+    student: z
+      .object({
+        name: UserNameValidationSchema.partial(), 
+        gender: z.enum(['male', 'female', 'other']).optional(),
+        dateOfBirth: z.string().optional(),
+        email: z.string().email().optional(),
+        contactNo: z.string().optional(),
+        emergencyContactNo: z.string().optional(),
+        bloodGroup: z
+          .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+          .optional(),
+        presentAddress: z.string().optional(),
+        permanentAddress: z.string().optional(),
+        guardian: GuardianValidationSchema.optional(), 
+        localGuardian: LocalGuardianValidationSchema.optional(),
+        admissionSemester: z.string().optional(),
+        profileImg: z.string().optional(),
+      })
+      .optional(),
+  }),
+});
+
 // Export the Zod schema
 export const studentValidations = {
   createStudentValidationSchema,
+  updateStudentValidationSchema,
 };

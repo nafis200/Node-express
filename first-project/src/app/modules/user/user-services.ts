@@ -54,10 +54,11 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     // Commit transaction
     await session.commitTransaction();
     return newStudent;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // Rollback transaction in case of an error
     await session.abortTransaction();
-    throw error;
+    throw new Error("failed to delete students");
   } finally {
     // End session
     session.endSession();
