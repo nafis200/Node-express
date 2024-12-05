@@ -29,8 +29,22 @@ import type { TStudent } from './student-interface';
 //   return result;
 // };
 
-const getAllStudentsFromDB = async () => {
-  const result = await Student.find()
+const getAllStudentsFromDB = async (query: Record<string,unknown>) => {
+
+  // for partial match
+  // {email: {$regex: query.searchTerm, $options: i} }
+
+  let searchTerm = ''
+
+  if(query?.searchTerm){
+      searchTerm = query?.searchTerm as string
+  }
+
+  const result = await Student.find({
+     $or: ['email','name.firstName','presentAddress'].map((field)=>({
+       [field]: {$regex: searchTerm, $options: 'i'}
+     }))
+  })
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -109,10 +123,10 @@ const deleteStudentsFromDB = async (id: string) => {
       
     return deletedStudent;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
+  } catch (error:any) {
      await session.abortTransaction()
      await session.endSession()
-     throw new Error("Failed to create Student")
+     throw new Error(error)
   }
 };
 
