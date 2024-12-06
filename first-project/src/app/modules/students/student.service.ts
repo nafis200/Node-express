@@ -4,6 +4,8 @@ import { Student } from './student.model';
 import AppError from '../../errors/Apperror';
 import { User } from '../user/user-model';
 import type { TStudent } from './student-interface';
+import Querybuilders from '../../builders/Querybuilders';
+import { studentSearchFields } from './student.constant';
 
 // const createStudentIntoDB = async (studentData: TStudent) => {
 //   if (await Student.isUserExists(studentData.id)) {
@@ -29,89 +31,92 @@ import type { TStudent } from './student-interface';
 //   return result;
 // };
 
-const getAllStudentsFromDB = async (query: Record<string,unknown>) => {
-
+const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   // for partial match
   // {email: {$regex: query.searchTerm, $options: i} }
 
-  const queryobj = {...query}
+  //   const queryobj = {...query}
 
-  let searchTerm = ''
+  //   let searchTerm = ''
 
-  if(query?.searchTerm){
-      searchTerm = query?.searchTerm as string
-  }
+  //   if(query?.searchTerm){
+  //       searchTerm = query?.searchTerm as string
+  //   }
 
-  const studentSearchFields = ['email','name.firstName','presentAddress']
+  // const studentSearchFields = ['email','name.firstName','presentAddress']
 
-  // filtering
+  //   // filtering
 
-  const excludeFields = ['searchTerm','sort','limit','page','fields']
+  //   const excludeFields = ['searchTerm','sort','limit','page','fields']
 
-  excludeFields.forEach(el => delete queryobj[el])
+  //   excludeFields.forEach(el => delete queryobj[el])
 
+  //   const seachQuery = Student.find({
+  //     $or: studentSearchFields.map((field)=>({
+  //       [field]: {$regex: searchTerm, $options: 'i'}
+  //     }))
+  //  })
 
-  const seachQuery = Student.find({
-    $or: studentSearchFields.map((field)=>({
-      [field]: {$regex: searchTerm, $options: 'i'}
-    }))
- })
+  //   const filterQuery =  seachQuery.find(queryobj)
+  //     .populate('admissionSemester')
+  //     .populate({
+  //       path: 'academicDepartment',
+  //       populate: {
+  //         path: 'academicFaculty',
+  //       },
+  //     });
 
-  const filterQuery =  seachQuery.find(queryobj)
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDepartment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    });
+  //   let sort = '-createdAt'
+  //   if(query.sort){
+  //     sort = query.sort as string
+  //   }
 
-  let sort = '-createdAt'
-  if(query.sort){
-    sort = query.sort as string
-  }
+  //   const sortQuery =  filterQuery.sort(sort)
 
+  //   let page = 1
+  //   let limit = 1
+  //   let skip = 0
 
+  //   if(query.limit){
+  //     limit = Number(query.limit)
+  //   }
 
-  const sortQuery =  filterQuery.sort(sort)
+  //   if(query.page){
+  //      page = Number(query.page)
+  //      skip = (page - 1) * limit
+  //   }
 
-  let page = 1
-  let limit = 1
-  let skip = 0
+  //   const paginateQuery = sortQuery.skip(skip)
 
-  if(query.limit){
-    limit = Number(query.limit)
-  }
+  //   const limitQuery = paginateQuery.limit(limit)
 
-  if(query.page){
-     page = Number(query.page)
-     skip = (page - 1) * limit
-  }
+  //   // field limiting
 
-  const paginateQuery = sortQuery.skip(skip)
+  //   let fields = '-__v'
 
-  
+  //   if(query.fields){
+  //     fields = (query.fields as string).split(',').join(' ')
+  //   }
 
-  const limitQuery = paginateQuery.limit(limit)
+  //   const fieldQuery = await limitQuery.select(fields)
 
+  //   return fieldQuery;
 
-  // field limiting
-  
-  let fields = '-__v'
+  const studentQuery = new Querybuilders(Student.find(), query)
+    .search(studentSearchFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  if(query.fields){
-    fields = (query.fields as string).split(',').join(' ')
-  }
+  const result = await studentQuery.modelQuery;
 
-  const fieldQuery = await limitQuery.select(fields)
-
-
-  return fieldQuery;
+  return result;
 };
 
 const getSingleStudentsFromDB = async (id: string) => {
   // const result = await Student.findOne({ id });
-  const result = await Student.findOne({id})
+  const result = await Student.findOne({ id })
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -122,65 +127,71 @@ const getSingleStudentsFromDB = async (id: string) => {
   return result;
 };
 
-const UpdateStudentIntoDB = async (id: string,payload:Partial<TStudent>) => {
+const UpdateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
+  const { name, guardian, localGuardian, ...reaminingData } = payload;
 
-  const {name,guardian,localGuardian,...reaminingData} = payload
+  const modifiedUpdatedData: Record<string, unknown> = { ...reaminingData };
 
-
-  const modifiedUpdatedData: Record<string,unknown>={...reaminingData}
-
-  if(name && Object.keys(name).length){
-    for(const [key,value] of Object.entries(name)){
-       modifiedUpdatedData[`name.${key}`] = value
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedUpdatedData[`name.${key}`] = value;
     }
   }
 
-  if(guardian && Object.keys(guardian).length){
-    for(const [key,value] of Object.entries(guardian)){
-       modifiedUpdatedData[`gurdian.${key}`] = value
+  if (guardian && Object.keys(guardian).length) {
+    for (const [key, value] of Object.entries(guardian)) {
+      modifiedUpdatedData[`gurdian.${key}`] = value;
     }
   }
 
-  if(localGuardian && Object.keys(localGuardian).length){
-    for(const [key,value] of Object.entries(localGuardian)){
-       modifiedUpdatedData[`localGuardian.${key}`] = value
+  if (localGuardian && Object.keys(localGuardian).length) {
+    for (const [key, value] of Object.entries(localGuardian)) {
+      modifiedUpdatedData[`localGuardian.${key}`] = value;
     }
   }
 
-
-  const result = await Student.findOneAndUpdate({id},modifiedUpdatedData,{new:true,runValidators:true})
+  const result = await Student.findOneAndUpdate({ id }, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
-
 
 const deleteStudentsFromDB = async (id: string) => {
   const session = await mongoose.startSession();
 
   try {
+    session.startTransaction();
 
-    session.startTransaction()
+    const deletedStudent = await Student.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
 
-    const deletedStudent = await Student.findOneAndUpdate({ id }, { isDeleted: true },{new:true, session});
-
-    if(!deletedStudent){
-      throw new AppError(400,"Failed to delete student")
+    if (!deletedStudent) {
+      throw new AppError(400, 'Failed to delete student');
     }
 
-    const deletedUser = await User.findOneAndUpdate({ id }, { isDeleted: true },{new:true, session})
+    const deletedUser = await User.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
 
-    if(!deletedUser){
-      throw new AppError(400,"Failed to delete User")
+    if (!deletedUser) {
+      throw new AppError(400, 'Failed to delete User');
     }
 
-    await session.commitTransaction()
-    await session.endSession()
-      
+    await session.commitTransaction();
+    await session.endSession();
+
     return deletedStudent;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error:any) {
-     await session.abortTransaction()
-     await session.endSession()
-     throw new Error(error)
+  } catch (error: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error(error);
   }
 };
 
@@ -189,5 +200,5 @@ export const StudentServices = {
   getAllStudentsFromDB,
   getSingleStudentsFromDB,
   deleteStudentsFromDB,
-  UpdateStudentIntoDB
+  UpdateStudentIntoDB,
 };
