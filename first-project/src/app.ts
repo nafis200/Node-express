@@ -6,12 +6,15 @@ import globalErrorhandler from './app/middleware/global-error-handler';
 import Notfound from './app/middleware/not-found';
 import router from './app/routes';
 
+import cookieParser from 'cookie-parser';
+
 const app: Application = express();
 
 // parser
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser())
+app.use(cors({origin:['/localhost:5173']}));
 
 app.use('/api/v1/', router);
 app.get('/', (req: Request, res: Response) => {
