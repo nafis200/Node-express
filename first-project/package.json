@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/http-status": "^0.2.30",
+    "@types/jsonwebtoken": "^9.0.7",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -27,6 +28,7 @@
     "http-status": "^2.0.0",
     "http-status-ts": "^2.0.1",
     "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.1",
     "node": "^18.20.5",
     "validator": "^13.12.0",

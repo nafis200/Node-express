@@ -103,6 +103,7 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   //   return fieldQuery;
 
   const studentQuery = new Querybuilders(Student.find(), query)
+    // .populate('user')
     .search(studentSearchFields)
     .filter()
     .sort()
