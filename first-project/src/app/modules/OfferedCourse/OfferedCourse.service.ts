@@ -413,7 +413,7 @@ const getMyOfferedCoursesFromDB = async (
       $limit: limit,
     },
   ];
-// 
+
   const result = await OfferedCourse.aggregate([
     ...aggregationQuery,
     ...paginationQuery,
