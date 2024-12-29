@@ -3,6 +3,8 @@ import express from 'express';
 import { CourseControllers } from './course.controller';
 import { CourseValidations } from './course.validation';
 import ValidateRequest from '../../middleware/validateRequest';
+import auth from '../../middleware/auth';
+import { USER_ROLE } from '../user/user.constant';
 
 const router = express.Router();
 
@@ -26,6 +28,17 @@ router.put(
   '/:courseId/assign-faculties',
   ValidateRequest(CourseValidations.facultiesWithCourseValidationSchema),
   CourseControllers.assignFacultiesWithCourse,
+);
+
+router.get(
+  '/:courseId/get-faculties',
+  auth(
+    USER_ROLE.superAdmin,
+    USER_ROLE.admin,
+    USER_ROLE.faculty,
+    USER_ROLE.student,
+  ),
+  CourseControllers.getFacultiesWithCourse,
 );
 
 router.delete(

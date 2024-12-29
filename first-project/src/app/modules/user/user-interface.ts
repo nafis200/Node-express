@@ -6,9 +6,10 @@ import { USER_ROLE } from './user.constant';
 export interface TUser {
    
     id:string;
+    email:string;
     password:string;
     needPasswordChange:boolean;
-    role:'admin' | 'student' | 'faculty';
+    role: 'superAdmin' | 'admin' | 'student' | 'faculty';
     passwordChangedAt?: Date;
     status:'in-progress' | 'blocked'; 
     isDeleted:boolean;
